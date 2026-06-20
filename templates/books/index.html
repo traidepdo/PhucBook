@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Trang chủ - Bookstore tri thức trực tuyến{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row align-items-center mb-5 bg-white p-4 p-md-5 rounded-4 shadow-sm">
+    <div class="col-lg-6 mb-4 mb-lg-0">
+        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fw-semibold">Cửa hàng sách trực tuyến #1</span>
+        <h1 class="display-4 fw-extrabold mb-3 text-dark">Khám Phá Thế Giới Qua Từng Trang Sách</h1>
+        <p class="lead text-muted mb-4">Chào mừng đến với BookStore - nơi hội tụ hàng ngàn đầu sách hay thuộc mọi thể loại. Đọc để mở mang tri thức và phát triển bản thân mỗi ngày.</p>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'books:book_list' %}" class="btn btn-primary btn-lg rounded-pill px-4 py-2.5">Mua Sách Ngay</a>
+            <a href="#featured-section" class="btn btn-outline-secondary btn-lg rounded-pill px-4 py-2.5">Tìm Hiểu Thêm</a>
+        </div>
+    </div>
+    <div class="col-lg-6 text-center">
+        <!-- SVG Book Store Illustration -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="auto">
+            <rect x="50" y="50" width="400" height="250" rx="20" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+            <path d="M 120,270 L 150,150 L 170,150 L 200,270 Z" fill="#4f46e5" opacity="0.8"/>
+            <path d="M 210,270 L 230,130 L 250,130 L 270,270 Z" fill="#0ea5e9" opacity="0.9"/>
+            <path d="M 280,270 L 290,110 L 320,110 L 330,270 Z" fill="#f43f5e" opacity="0.8"/>
+            <rect x="340" y="90" width="30" height="180" rx="3" fill="#10b981" opacity="0.75"/>
+            <line x1="80" y1="270" x2="420" y2="270" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+    </div>
+</div>
+
+<!-- Category list grid -->
+<div class="mb-5">
+    <h3 class="fw-bold mb-4 d-flex align-items-center">
+        <i class="bi bi-grid-fill text-primary me-2"></i>
+        <span>Danh Mục Sách Nổi Bật</span>
+    </h3>
+    <div class="row row-cols-2 row-cols-md-4 g-3">
+        {% for cat in all_categories|slice:":4" %}
+            <div class="col">
+                <a href="{% url 'books:book_list' %}?category={{ cat.id }}" class="text-decoration-none">
+                    <div class="card h-100 bg-white border border-light-subtle text-center p-4">
+                        <div class="rounded-circle bg-primary-subtle text-primary mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                            <i class="bi bi-bookmark-star fs-3"></i>
+                        </div>
+                        <h5 class="card-title text-dark fw-bold mb-1 small">{{ cat.name }}</h5>
+                        <p class="card-text text-muted small">Xem sản phẩm</p>
+                    </div>
+                </a>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-4">
+                <p class="text-muted">Chưa có danh mục sách nào.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Featured Books -->
+<div id="featured-section" class="mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <h3 class="fw-bold mb-0 d-flex align-items-center">
+            <i class="bi bi-star-fill text-warning me-2"></i>
+            <span>Sách Mới Cập Nhật</span>
+        </h3>
+        <a href="{% url 'books:book_list' %}" class="text-decoration-none fw-semibold">Xem tất cả <i class="bi bi-arrow-right"></i></a>
+    </div>
+    
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for book in featured_books %}
+            <div class="col">
+                <div class="card h-100">
+                    <!-- Book Image -->
+                    <div class="position-relative overflow-hidden bg-light text-center py-4 rounded-top-3" style="height: 220px;">
+                        {% if book.image %}
+                            <img src="{{ book.image.url }}" class="img-fluid mh-100" style="object-fit: contain;" alt="{{ book.title }}">
+                        {% else %}
+                            <i class="bi bi-book text-muted" style="font-size: 5rem;"></i>
+                        {% endif %}
+                        <span class="position-absolute top-2 start-2 badge bg-primary">Mới</span>
+                    </div>
+                    
+                    <!-- Card Body -->
+                    <div class="card-body d-flex flex-column">
+                        <span class="text-muted small mb-1">{{ book.category.name }}</span>
+                        <h6 class="card-title fw-bold text-dark text-truncate-2 mb-2" style="min-height: 40px;" title="{{ book.title }}">{{ book.title }}</h6>
+                        <p class="card-text text-secondary small mb-3">Tác giả: {{ book.author }}</p>
+                        
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-primary fs-5">{{ book.price|floatformat:0 }}đ</span>
+                            <a href="{% url 'books:book_detail' book.id %}" class="btn btn-outline-primary btn-sm rounded-pill px-3">Chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5 bg-white rounded shadow-sm">
+                <i class="bi bi-book text-muted fs-1 mb-2"></i>
+                <p class="text-muted mb-0">Hệ thống chưa cập nhật sách nào.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

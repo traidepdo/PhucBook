@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Lịch sử mua hàng - BookStore{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4 d-flex align-items-center">
+    <i class="bi bi-clock-history text-primary me-2"></i>
+    <span>Lịch sử mua hàng</span>
+</h2>
+
+{% if orders %}
+    <div class="row">
+        <div class="col-12">
+            {% for order in orders %}
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <div>
+                            <span class="fw-bold text-dark fs-5">Đơn hàng #{{ order.id }}</span>
+                            <span class="text-secondary small ms-2">đặt lúc {{ order.created_at|date:"d/m/Y H:i" }}</span>
+                        </div>
+                        <div>
+                            {% if order.status == 'pending' %}
+                                <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill fs-6"><i class="bi bi-hourglass-split me-1"></i> Chờ xử lý</span>
+                            {% elif order.status == 'shipping' %}
+                                <span class="badge bg-info-subtle text-info px-3 py-2 rounded-pill fs-6"><i class="bi bi-truck me-1"></i> Đang giao</span>
+                            {% elif order.status == 'completed' %}
+                                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fs-6"><i class="bi bi-check-circle me-1"></i> Hoàn thành</span>
+                            {% elif order.status == 'cancelled' %}
+                                <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill fs-6"><i class="bi bi-x-circle me-1"></i> Đã hủy</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row gy-3 mb-3">
+                        <!-- Products list -->
+                        <div class="col-md-7 border-end border-light-subtle">
+                            <h6 class="fw-bold text-dark mb-3">Sản phẩm đã mua:</h6>
+                            {% for item in order.items.all %}
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="bg-light rounded p-1 text-center me-3" style="width: 40px; height: 50px; overflow: hidden;">
+                                        {% if item.book.image %}
+                                            <img src="{{ item.book.image.url }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <i class="bi bi-book text-muted small"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex-grow-1 min-width-0">
+                                        <p class="fw-semibold text-dark mb-0 text-truncate small">{{ item.book.title|default:"Sách đã xóa" }}</p>
+                                        <p class="text-secondary small mb-0">{{ item.quantity }} x {{ item.price|floatformat:0 }}đ</p>
+                                    </div>
+                                    <div class="ps-2 fw-semibold text-dark small">
+                                        {{ item.subtotal|floatformat:0 }}đ
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Delivery Info -->
+                        <div class="col-md-5 ps-md-4">
+                            <h6 class="fw-bold text-dark mb-3">Thông tin nhận hàng:</h6>
+                            <p class="mb-1 small"><span class="text-secondary">Người nhận:</span> <strong class="text-dark">{{ order.shipping_name }}</strong></p>
+                            <p class="mb-1 small"><span class="text-secondary">Điện thoại:</span> <strong class="text-dark">{{ order.shipping_phone }}</strong></p>
+                            <p class="mb-1 small"><span class="text-secondary">Địa chỉ:</span> <strong class="text-dark">{{ order.shipping_address }}</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                        <span class="text-secondary">Phương thức: <strong class="text-dark">COD (Thu hộ)</strong></span>
+                        <div>
+                            <span class="text-secondary me-2">Tổng tiền:</span>
+                            <span class="fw-extrabold text-primary fs-4">{{ order.total_price|floatformat:0 }}đ</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <div class="card border-0 shadow-sm p-5 text-center">
+        <div class="mb-4">
+            <i class="bi bi-receipt text-muted" style="font-size: 6rem;"></i>
+        </div>
+        <h4 class="fw-bold text-dark">Bạn chưa có đơn hàng nào</h4>
+        <p class="text-secondary mb-4">Hãy bắt đầu lựa chọn những cuốn sách yêu thích của bạn ngay hôm nay!</p>
+        <div>
+            <a href="{% url 'books:book_list' %}" class="btn btn-primary rounded-pill px-5 py-2.5 fw-semibold">
+                Mua sách ngay
+            </a>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

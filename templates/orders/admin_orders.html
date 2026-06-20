@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Quản lý đơn hàng - BookStore{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Sidebar -->
+    <div class="col-lg-3 mb-4">
+        <div class="card p-3 shadow-sm border-0 sticky-top" style="top: 100px; z-index: 10;">
+            <h5 class="fw-bold mb-3 d-flex align-items-center">
+                <i class="bi bi-shield-lock me-2 text-danger"></i> Quản trị hệ thống
+            </h5>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'books:admin_dashboard' %}" class="list-group-item list-group-item-action border-0 px-2 rounded">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard Thống kê
+                </a>
+                <a href="{% url 'orders:admin_orders' %}" class="list-group-item list-group-item-action border-0 px-2 rounded active bg-primary text-white fw-semibold mt-1">
+                    <i class="bi bi-receipt me-2"></i> Quản lý đơn hàng
+                </a>
+                <a href="{% url 'books:user_list' %}" class="list-group-item list-group-item-action border-0 px-2 rounded mt-1">
+                    <i class="bi bi-people me-2"></i> Danh sách người dùng
+                </a>
+                <a href="{% url 'books:book_list' %}" class="list-group-item list-group-item-action border-0 px-2 rounded mt-1">
+                    <i class="bi bi-eye me-2"></i> Xem giao diện shop
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-9">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Quản lý Đơn hàng</h2>
+                <p class="text-muted small mb-0">Xem và cập nhật trạng thái đơn hàng của khách hàng</p>
+            </div>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="d-flex flex-wrap gap-2 mb-4 bg-white p-2 rounded-3 shadow-sm">
+            <a href="{% url 'orders:admin_orders' %}" class="btn btn-sm {% if not status_filter %}btn-primary{% else %}btn-outline-secondary{% endif %} rounded-pill px-3">Tất cả</a>
+            <a href="{% url 'orders:admin_orders' %}?status=pending" class="btn btn-sm {% if status_filter == 'pending' %}btn-warning text-dark{% else %}btn-outline-warning text-dark{% endif %} rounded-pill px-3">Chờ xử lý</a>
+            <a href="{% url 'orders:admin_orders' %}?status=shipping" class="btn btn-sm {% if status_filter == 'shipping' %}btn-info text-white{% else %}btn-outline-info{% endif %} rounded-pill px-3">Đang giao</a>
+            <a href="{% url 'orders:admin_orders' %}?status=completed" class="btn btn-sm {% if status_filter == 'completed' %}btn-success{% else %}btn-outline-success{% endif %} rounded-pill px-3">Hoàn thành</a>
+            <a href="{% url 'orders:admin_orders' %}?status=cancelled" class="btn btn-sm {% if status_filter == 'cancelled' %}btn-danger{% else %}btn-outline-danger{% endif %} rounded-pill px-3">Đã hủy</a>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="card border-0 shadow-sm p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" style="width: 80px;">Mã ĐH</th>
+                            <th scope="col">Khách hàng</th>
+                            <th scope="col">Ngày đặt</th>
+                            <th scope="col">Tổng tiền</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col" style="width: 120px;" class="text-end">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <th scope="row">#{{ order.id }}</th>
+                                <td>
+                                    <div class="fw-semibold">{{ order.shipping_name }}</div>
+                                    <div class="text-secondary small">{{ order.user.username }} - {{ order.shipping_phone }}</div>
+                                </td>
+                                <td class="text-secondary small">{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                                <td class="fw-bold text-primary">{{ order.total_price|floatformat:0 }}đ</td>
+                                <td>
+                                    {% if order.status == 'pending' %}
+                                        <span class="badge bg-warning-subtle text-warning"><i class="bi bi-hourglass-split me-1"></i> Chờ xử lý</span>
+                                    {% elif order.status == 'shipping' %}
+                                        <span class="badge bg-info-subtle text-info"><i class="bi bi-truck me-1"></i> Đang giao</span>
+                                    {% elif order.status == 'completed' %}
+                                        <span class="badge bg-success-subtle text-success"><i class="bi bi-check-circle me-1"></i> Hoàn thành</span>
+                                    {% elif order.status == 'cancelled' %}
+                                        <span class="badge bg-danger-subtle text-danger"><i class="bi bi-x-circle me-1"></i> Đã hủy</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{% url 'orders:admin_order_detail' order.id %}" class="btn btn-sm btn-outline-primary px-3 rounded-pill">
+                                        Chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">Không có đơn hàng nào khớp với bộ lọc.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

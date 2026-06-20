@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+env/
+venv/
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+
+# Large archives and binaries
+*.zip
+*.rar
+*.tar.gz
+*.7z
+*.exe
+*.dll
+*.so
+*.iso

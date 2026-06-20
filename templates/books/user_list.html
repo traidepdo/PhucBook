@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Danh sách người dùng - BookStore{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Sidebar -->
+    <div class="col-lg-3 mb-4">
+        <div class="card p-3 shadow-sm border-0 sticky-top" style="top: 100px; z-index: 10;">
+            <h5 class="fw-bold mb-3 d-flex align-items-center">
+                <i class="bi bi-shield-lock me-2 text-danger"></i> Quản trị hệ thống
+            </h5>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'books:admin_dashboard' %}" class="list-group-item list-group-item-action border-0 px-2 rounded">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard Thống kê
+                </a>
+                <a href="{% url 'orders:admin_orders' %}" class="list-group-item list-group-item-action border-0 px-2 rounded mt-1">
+                    <i class="bi bi-receipt me-2"></i> Quản lý đơn hàng
+                </a>
+                <a href="{% url 'books:user_list' %}" class="list-group-item list-group-item-action border-0 px-2 rounded active bg-primary text-white fw-semibold mt-1">
+                    <i class="bi bi-people me-2"></i> Danh sách người dùng
+                </a>
+                <a href="{% url 'books:book_list' %}" class="list-group-item list-group-item-action border-0 px-2 rounded mt-1">
+                    <i class="bi bi-eye me-2"></i> Xem giao diện shop
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-9">
+        <h2 class="fw-bold mb-4">Danh sách người dùng</h2>
+        
+        <div class="card border-0 shadow-sm p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Tên đăng nhập</th>
+                            <th scope="col">Họ và tên</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Vai trò</th>
+                            <th scope="col">Ngày tham gia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                            <tr>
+                                <th scope="row">{{ u.id }}</th>
+                                <td class="fw-semibold">{{ u.username }}</td>
+                                <td>{{ u.last_name }} {{ u.first_name|default:"-" }}</td>
+                                <td>{{ u.email|default:"-" }}</td>
+                                <td>
+                                    {% if u.is_superuser %}
+                                        <span class="badge bg-danger">Admin</span>
+                                    {% else %}
+                                        <span class="badge bg-primary">Khách hàng</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-secondary small">{{ u.date_joined|date:"d/m/Y H:i" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-3 text-muted">Không có người dùng nào.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

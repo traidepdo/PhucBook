@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Thanh toán đơn hàng - BookStore{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4 d-flex align-items-center">
+    <i class="bi bi-wallet2 text-primary me-2"></i>
+    <span>Thanh toán đơn hàng</span>
+</h2>
+
+<div class="row">
+    <!-- Shipping Form -->
+    <div class="col-lg-7 mb-4">
+        <div class="card border-0 shadow-sm p-4 p-md-5">
+            <h4 class="fw-bold mb-4 text-dark border-bottom pb-2">Thông tin nhận hàng</h4>
+            
+            <form method="POST" action="{% url 'orders:checkout' %}">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label fw-medium">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{% for error in field.errors %}{{ error }}{% endfor %}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-semibold py-2.5">
+                        Xác nhận đặt hàng
+                    </button>
+                    <a href="{% url 'cart:cart_detail' %}" class="btn btn-outline-secondary rounded-pill fw-semibold py-2.5">
+                        Quay lại giỏ hàng
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Order Review Sidebar -->
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm p-4 sticky-top" style="top: 100px; z-index: 10;">
+            <h4 class="fw-bold mb-4 text-dark border-bottom pb-2">Đơn hàng của bạn</h4>
+            
+            <div class="mb-4" style="max-height: 250px; overflow-y: auto;">
+                {% for item in cart.items.all %}
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-light rounded p-1 text-center me-3" style="width: 45px; height: 55px; overflow: hidden;">
+                            {% if item.book.image %}
+                                <img src="{{ item.book.image.url }}" class="img-fluid" alt="">
+                            {% else %}
+                                <i class="bi bi-book text-muted small"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1 min-width-0">
+                            <h6 class="fw-bold text-dark text-truncate mb-0 small">{{ item.book.title }}</h6>
+                            <p class="text-secondary small mb-0">{{ item.quantity }} x {{ item.book.price|floatformat:0 }}đ</p>
+                        </div>
+                        <div class="ps-2 fw-semibold text-dark small">
+                            {{ item.subtotal|floatformat:0 }}đ
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <hr class="border-light-subtle">
+            
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-secondary small">Tạm tính:</span>
+                <span class="fw-semibold text-dark">{{ cart.total_price|floatformat:0 }}đ</span>
+            </div>
+            <div class="d-flex justify-content-between mb-4">
+                <span class="text-secondary fs-5">Tổng tiền thanh toán:</span>
+                <span class="fw-extrabold text-primary fs-4">{{ cart.total_price|floatformat:0 }}đ</span>
+            </div>
+            
+            <div class="alert alert-info py-2 px-3 small border-0 rounded-3">
+                <i class="bi bi-info-circle me-1"></i> Thanh toán bằng hình thức **COD (Giao hàng thu tiền tận nơi)**.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+/* Custom style configurations for Bookstore */
+
+.text-gradient {
+    background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.style-search-form input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.15);
+}
+
+.dropdown-menu-item:hover {
+    background-color: #f3f4f6;
+    color: #4f46e5 !important;
+}
+
+.btn-close:focus {
+    box-shadow: none;
+}

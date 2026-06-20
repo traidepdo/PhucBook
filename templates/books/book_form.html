@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - BookStore{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow p-4 p-md-5">
+            <h3 class="fw-bold mb-4 text-dark">{{ title }}</h3>
+            
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label fw-medium">Tiêu đề sách</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="text-danger small mt-1">{% for error in form.title.errors %}{{ error }}{% endfor %}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.author.id_for_label }}" class="form-label fw-medium">Tác giả</label>
+                        {{ form.author }}
+                        {% if form.author.errors %}
+                            <div class="text-danger small mt-1">{% for error in form.author.errors %}{{ error }}{% endfor %}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.price.id_for_label }}" class="form-label fw-medium">Giá bán (đ)</label>
+                        {{ form.price }}
+                        {% if form.price.errors %}
+                            <div class="text-danger small mt-1">{% for error in form.price.errors %}{{ error }}{% endfor %}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.stock.id_for_label }}" class="form-label fw-medium">Số lượng tồn kho</label>
+                        {{ form.stock }}
+                        {% if form.stock.errors %}
+                            <div class="text-danger small mt-1">{% for error in form.stock.errors %}{{ error }}{% endfor %}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.category.id_for_label }}" class="form-label fw-medium">Danh mục sách</label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <div class="text-danger small mt-1">{% for error in form.category.errors %}{{ error }}{% endfor %}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.image.id_for_label }}" class="form-label fw-medium">Ảnh bìa sách</label>
+                    {{ form.image }}
+                    {% if form.image.errors %}
+                        <div class="text-danger small mt-1">{% for error in form.image.errors %}{{ error }}{% endfor %}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.description.id_for_label }}" class="form-label fw-medium">Mô tả sách</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="text-danger small mt-1">{% for error in form.description.errors %}{{ error }}{% endfor %}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="{% url 'books:admin_dashboard' %}" class="btn btn-outline-secondary px-4 rounded-pill">Hủy bỏ</a>
+                    <button type="submit" class="btn btn-primary px-4 rounded-pill">Lưu lại</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,68 +1,88 @@
-<footer class="bg-dark text-light py-5 mt-auto border-top border-secondary">
-    <div class="container">
-        <div class="row gy-4">
-            <div class="col-12 col-md-4">
-                <h5 class="text-primary mb-3 d-flex align-items-center">
-                    <i class="bi bi-book-half me-2 fs-4"></i>
-                    <span>BookStore</span>
-                </h5>
-                <p class="text-muted small">
-                    Hệ thống bán sách trực tuyến hàng đầu, mang tri thức đến với mọi người. Trải nghiệm mua sắm nhanh chóng, tiện lợi và an toàn.
+<footer class="mt-auto" style="background: linear-gradient(160deg, #0f172a 0%, #1e1b4b 100%);">
+    <!-- Top Footer -->
+    <div class="container py-5">
+        <div class="row gy-5">
+
+            <!-- Brand Column -->
+            <div class="col-12 col-lg-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-3 d-flex align-items-center justify-content-center me-2" style="width:38px;height:38px;background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+                        <i class="bi bi-book-half text-white fs-5"></i>
+                    </div>
+                    <span class="fs-4 fw-bold text-white">BookStore</span>
+                </div>
+                <p class="mb-4" style="color:#94a3b8; font-size:0.9rem; line-height:1.7;">
+                    Hệ thống bán sách trực tuyến hàng đầu Việt Nam, mang tri thức đến với mọi người. Trải nghiệm mua sắm nhanh chóng, tiện lợi và an toàn.
                 </p>
-                <div class="d-flex gap-3 mt-3">
-                    <a href="#" class="text-light fs-5"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-light fs-5"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-light fs-5"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="text-light fs-5"><i class="bi bi-youtube"></i></a>
+                <!-- Social -->
+                <div class="d-flex gap-2">
+                    <a href="#" class="footer-social-btn" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="footer-social-btn" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="footer-social-btn" title="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="footer-social-btn" title="YouTube"><i class="bi bi-youtube"></i></a>
+                </div>
+                <!-- Trust Badges -->
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <span class="footer-badge"><i class="bi bi-shield-check me-1"></i>An toàn thanh toán</span>
+                    <span class="footer-badge"><i class="bi bi-truck me-1"></i>Giao hàng toàn quốc</span>
                 </div>
             </div>
-            
-            <div class="col-6 col-md-2">
-                <h6 class="text-uppercase mb-3 fw-bold small text-muted">Liên kết nhanh</h6>
-                <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="{% url 'books:index' %}" class="text-decoration-none text-light-50 hover-text-light text-muted">Trang chủ</a></li>
-                    <li class="mb-2"><a href="{% url 'books:book_list' %}" class="text-decoration-none text-light-50 hover-text-light text-muted">Tất cả sách</a></li>
-                    <li class="mb-2"><a href="{% url 'cart:cart_detail' %}" class="text-decoration-none text-light-50 hover-text-light text-muted">Giỏ hàng của bạn</a></li>
+
+            <!-- Links Columns -->
+            <div class="col-6 col-md-3 col-lg-2">
+                <h6 class="footer-heading">Liên kết nhanh</h6>
+                <ul class="footer-links">
+                    <li><a href="{% url 'books:index' %}"><i class="bi bi-house"></i>Trang chủ</a></li>
+                    <li><a href="{% url 'books:book_list' %}"><i class="bi bi-grid"></i>Tất cả sách</a></li>
+                    <li><a href="{% url 'cart:cart_detail' %}"><i class="bi bi-cart3"></i>Giỏ hàng</a></li>
+                    <li><a href="#about-section"><i class="bi bi-info-circle"></i>Giới thiệu</a></li>
                 </ul>
             </div>
 
-            <div class="col-6 col-md-2">
-                <h6 class="text-uppercase mb-3 fw-bold small text-muted">Hỗ trợ khách hàng</h6>
-                <ul class="list-unstyled small text-muted">
-                    <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Hướng dẫn đặt hàng</a></li>
-                    <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Chính sách bảo mật</a></li>
-                    <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Chính sách đổi trả</a></li>
-                    <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Liên hệ hỗ trợ</a></li>
+            <div class="col-6 col-md-3 col-lg-2">
+                <h6 class="footer-heading">Hỗ trợ</h6>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="bi bi-journal-text"></i>Hướng dẫn mua</a></li>
+                    <li><a href="#"><i class="bi bi-lock"></i>Bảo mật</a></li>
+                    <li><a href="#"><i class="bi bi-arrow-repeat"></i>Đổi trả</a></li>
+                    <li><a href="#"><i class="bi bi-headset"></i>Hỗ trợ 24/7</a></li>
                 </ul>
             </div>
 
-            <div class="col-12 col-md-4">
-                <h6 class="text-uppercase mb-3 fw-bold small text-muted">Liên hệ</h6>
-                <ul class="list-unstyled small text-muted">
-                    <li class="mb-2 d-flex align-items-start">
-                        <i class="bi bi-geo-alt me-2 text-primary"></i>
+            <!-- Contact Column -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <h6 class="footer-heading">Liên hệ chúng tôi</h6>
+                <ul class="footer-contact">
+                    <li>
+                        <div class="footer-contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
                         <span>123 Đường Sách, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</span>
                     </li>
-                    <li class="mb-2">
-                        <i class="bi bi-telephone me-2 text-primary"></i>
-                        <span>+84 123 456 789</span>
+                    <li>
+                        <div class="footer-contact-icon"><i class="bi bi-telephone-fill"></i></div>
+                        <span>+84 123 456 789 <span style="color:#6366f1; font-size:0.78rem;">(8:00 – 22:00)</span></span>
                     </li>
-                    <li class="mb-2">
-                        <i class="bi bi-envelope me-2 text-primary"></i>
+                    <li>
+                        <div class="footer-contact-icon"><i class="bi bi-envelope-fill"></i></div>
                         <span>support@bookstore.vn</span>
                     </li>
                 </ul>
             </div>
+
         </div>
-        
-        <hr class="border-secondary my-4">
-        
-        <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
-                <p class="mb-0 small text-muted">&copy; 2026 BookStore. Tất cả quyền được bảo lưu.</p>
-            </div>
-            <div class="col-md-6 text-center text-md-end">
-                <p class="mb-0 small text-muted">Phát triển bởi Senior Full Stack Developer (Django)</p>
+    </div>
+
+    <!-- Bottom Footer -->
+    <div style="border-top: 1px solid rgba(255,255,255,0.08);">
+        <div class="container py-3">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-1 mb-md-0">
+                    <p class="mb-0" style="font-size:0.82rem; color:#64748b;">&copy; 2026 BookStore. Tất cả quyền được bảo lưu.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0" style="font-size:0.82rem; color:#64748b;">
+                        Phát triển bởi <span style="color:#818cf8;">Senior Full Stack Developer</span> (Django)
+                    </p>
+                </div>
             </div>
         </div>
     </div>

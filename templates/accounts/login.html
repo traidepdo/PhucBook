@@ -1,43 +1,332 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Đăng nhập - BookStore{% endblock %}
 
+{% block extra_css %}
+<style>
+/* ============ Auth Page Layout ============ */
+.auth-page {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 460px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(79,70,229,0.12), 0 4px 20px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+/* Header gradient */
+.auth-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #0ea5e9 100%);
+    padding: 2.5rem 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.auth-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.auth-logo-circle {
+    width: 70px; height: 70px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+}
+.auth-header h2 { color: #fff; font-weight: 700; margin-bottom: 0.25rem; }
+.auth-header p { color: rgba(255,255,255,0.8); font-size: 0.9rem; margin: 0; }
+
+/* Body */
+.auth-body { padding: 2rem 2.5rem 2.5rem; }
+
+/* Input field */
+.auth-field {
+    margin-bottom: 1.1rem;
+}
+.auth-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.4rem;
+}
+.auth-input-wrap {
+    position: relative;
+}
+.auth-input-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: color 0.2s;
+}
+.auth-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px 0 42px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #111827;
+    background: #f9fafb;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+}
+.auth-input:focus {
+    border-color: #4f46e5;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+}
+.auth-input:focus ~ .auth-input-icon,
+.auth-input-wrap:focus-within .auth-input-icon { color: #4f46e5; }
+
+/* Password toggle */
+.toggle-pw {
+    position: absolute;
+    right: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af; cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
+    background: none; border: none; padding: 0;
+}
+.toggle-pw:hover { color: #4f46e5; }
+
+/* Error */
+.auth-error {
+    font-size: 0.78rem;
+    color: #dc2626;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Submit btn */
+.auth-btn {
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    letter-spacing: 0.02em;
+}
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(79,70,229,0.35);
+    opacity: 0.95;
+}
+.auth-btn:active { transform: translateY(0); }
+
+/* Divider */
+.auth-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 1.2rem 0;
+    color: #9ca3af; font-size: 0.8rem;
+}
+.auth-divider::before, .auth-divider::after {
+    content: ''; flex: 1;
+    height: 1px; background: #e5e7eb;
+}
+
+/* Footer link */
+.auth-footer-text {
+    text-align: center;
+    font-size: 0.88rem;
+    color: #6b7280;
+    margin-top: 1.2rem;
+}
+.auth-footer-text a {
+    color: #4f46e5;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.auth-footer-text a:hover { color: #7c3aed; text-decoration: underline; }
+
+/* Remember + forgot row */
+.auth-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.2rem;
+}
+.auth-check-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.85rem; color: #374151; cursor: pointer;
+}
+.auth-check-label input[type="checkbox"] { accent-color: #4f46e5; }
+.auth-forgot { font-size: 0.85rem; color: #4f46e5; text-decoration: none; font-weight: 500; }
+.auth-forgot:hover { text-decoration: underline; }
+
+/* Feature list (right panel) */
+.auth-features { margin-top: 1.5rem; }
+.auth-feature-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 0.9rem;
+    font-size: 0.88rem; color: rgba(255,255,255,0.9);
+}
+.auth-feature-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 8px; background: rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+}
+
+/* Social login buttons */
+.social-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; height: 44px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    font-size: 0.9rem; font-weight: 500; color: #374151;
+    cursor: pointer; text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.social-btn:hover {
+    border-color: #4f46e5;
+    background: #f8f7ff;
+    box-shadow: 0 2px 8px rgba(79,70,229,0.1);
+    color: #374151;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-5">
-        <div class="card shadow-lg p-4 p-md-5">
-            <div class="text-center mb-4">
-                <i class="bi bi-person-lock text-primary fs-1"></i>
-                <h2 class="mt-2 mb-1 fw-bold">Chào mừng trở lại</h2>
-                <p class="text-muted small">Đăng nhập tài khoản của bạn để tiếp tục mua sắm</p>
+<div class="auth-page py-4">
+    <div class="auth-card">
+
+        <!-- Header -->
+        <div class="auth-header">
+            <div class="auth-logo-circle">
+                <i class="bi bi-book-half text-white"></i>
             </div>
-            
-            <form method="POST" action="{% url 'accounts:login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
-                {% csrf_token %}
-                
-                {% for field in form %}
-                    <div class="mb-3">
-                        <label for="{{ field.id_for_label }}" class="form-label fw-medium">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.errors %}
-                            <div class="text-danger small mt-1">
-                                {% for error in field.errors %}
-                                    {{ error }}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+            <h2 class="fs-4">Chào mừng trở lại!</h2>
+            <p>Đăng nhập để tiếp tục khám phá sách hay</p>
+        </div>
+
+        <!-- Body -->
+        <div class="auth-body">
+
+            <!-- Django Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show rounded-3 py-2 mb-3" role="alert" style="font-size:0.88rem;">
+                        {% if message.tags == 'error' %}<i class="bi bi-exclamation-circle-fill me-2"></i>
+                        {% elif message.tags == 'success' %}<i class="bi bi-check-circle-fill me-2"></i>
+                        {% else %}<i class="bi bi-info-circle-fill me-2"></i>{% endif %}
+                        {{ message }}
+                        <button type="button" class="btn-close btn-close-sm" data-bs-dismiss="alert"></button>
                     </div>
                 {% endfor %}
-                
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary py-2.5 rounded-pill fw-semibold">Đăng nhập</button>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form method="POST" action="{% url 'accounts:login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
+                {% csrf_token %}
+
+                <!-- Email / Username -->
+                <div class="auth-field">
+                    <label for="id_login_input">
+                        <i class="bi bi-person-circle me-1 text-primary"></i>Email hoặc tên đăng nhập
+                    </label>
+                    <div class="auth-input-wrap">
+                        <i class="bi bi-envelope auth-input-icon"></i>
+                        {{ form.login_input }}
+                    </div>
+                    {% if form.login_input.errors %}
+                        <div class="auth-error"><i class="bi bi-exclamation-circle-fill"></i>{{ form.login_input.errors.0 }}</div>
+                    {% endif %}
                 </div>
+
+                <!-- Password -->
+                <div class="auth-field">
+                    <label for="id_password">
+                        <i class="bi bi-lock me-1 text-primary"></i>Mật khẩu
+                    </label>
+                    <div class="auth-input-wrap">
+                        <i class="bi bi-lock auth-input-icon"></i>
+                        {{ form.password }}
+                        <button type="button" class="toggle-pw" onclick="togglePw('id_password', this)" tabindex="-1">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    {% if form.password.errors %}
+                        <div class="auth-error"><i class="bi bi-exclamation-circle-fill"></i>{{ form.password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Remember + Forgot -->
+                <div class="auth-row">
+                    <label class="auth-check-label">
+                        <input type="checkbox" name="remember"> Ghi nhớ đăng nhập
+                    </label>
+                    <a href="#" class="auth-forgot">Quên mật khẩu?</a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="auth-btn">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+                </button>
             </form>
-            
-            <div class="text-center mt-4">
-                <p class="mb-0 text-muted small">Chưa có tài khoản? <a href="{% url 'accounts:register' %}" class="text-decoration-none fw-semibold">Đăng ký ngay</a></p>
+
+            <!-- Divider -->
+            <div class="auth-divider">hoặc đăng nhập với</div>
+
+            <!-- Social Buttons (placeholder) -->
+            <div class="row g-2">
+                <div class="col-6">
+                    <a href="#" class="social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                        Google
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="#" class="social-btn">
+                        <i class="bi bi-facebook text-primary fs-5"></i>
+                        Facebook
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="auth-footer-text">
+                Chưa có tài khoản? <a href="{% url 'accounts:register' %}">Đăng ký ngay</a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+function togglePw(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+</script>
 {% endblock %}

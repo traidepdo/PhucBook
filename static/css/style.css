@@ -1,11 +1,16 @@
-/* Custom style configurations for Bookstore */
+/* =============================================
+   Custom Styles – BookStore Premium
+   ============================================= */
 
+/* --- Text Gradient --- */
 .text-gradient {
     background: linear-gradient(135deg, #4f46e5, #0ea5e9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
+/* --- Text Truncate 2 lines --- */
 .text-truncate-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -13,16 +18,286 @@
     overflow: hidden;
 }
 
+/* --- Search Form --- */
 .style-search-form input:focus {
     border-color: #4f46e5;
     box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.15);
 }
 
+/* --- Dropdown Menu Item --- */
 .dropdown-menu-item:hover {
     background-color: #f3f4f6;
     color: #4f46e5 !important;
 }
 
+/* --- Alert Close --- */
 .btn-close:focus {
     box-shadow: none;
 }
+
+/* =============================================
+   Hero Section
+   ============================================= */
+.hero-section {
+    position: relative;
+    min-height: 460px;
+}
+.hero-bg-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.6s ease;
+}
+.hero-section:hover .hero-bg-image {
+    transform: scale(1.02);
+}
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(79, 70, 229, 0.82) 0%,
+        rgba(14, 165, 233, 0.60) 60%,
+        rgba(0, 0, 0, 0.20) 100%
+    );
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    min-height: 460px;
+}
+.hero-text {
+    animation: fadeInUp 0.7s ease both;
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
+   Book Cards
+   ============================================= */
+.book-card {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+    overflow: hidden;
+}
+.book-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 28px rgba(79, 70, 229, 0.14);
+}
+
+.book-cover-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+.book-cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(79, 70, 229, 0.60);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+.book-cover-wrapper:hover .book-cover-overlay {
+    opacity: 1;
+}
+
+/* =============================================
+   Category Cards
+   ============================================= */
+.category-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border-radius: 14px !important;
+}
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.12) !important;
+}
+.category-icon {
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+.category-card:hover .category-icon {
+    transform: scale(1.15);
+    background-color: #4f46e5 !important;
+    color: white !important;
+}
+.category-card:hover .category-icon i {
+    color: white !important;
+}
+
+/* =============================================
+   Trust Cards
+   ============================================= */
+.trust-card {
+    border-radius: 14px !important;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.trust-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.09) !important;
+}
+
+/* =============================================
+   Star Rating Input (Review Form)
+   ============================================= */
+.star-rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 4px;
+}
+.star-rating-input input { display: none; }
+.star-rating-input label {
+    font-size: 2rem;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: color 0.15s, transform 0.15s;
+}
+.star-rating-input label:hover { transform: scale(1.15); }
+.star-rating-input input:checked ~ label,
+.star-rating-input label:hover,
+.star-rating-input label:hover ~ label {
+    color: #f59e0b;
+}
+
+/* =============================================
+   Review Cards
+   ============================================= */
+.review-card {
+    border-left: 3px solid #4f46e5;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.review-card:hover {
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.10);
+    transform: translateX(2px);
+}
+
+/* =============================================
+   Book Info Tabs
+   ============================================= */
+.book-info-tab .nav-link {
+    color: #6b7280;
+    font-weight: 500;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    padding: 0.6rem 1.2rem;
+    transition: color 0.2s, border-color 0.2s;
+}
+.book-info-tab .nav-link:hover {
+    color: #4f46e5;
+}
+.book-info-tab .nav-link.active {
+    color: #4f46e5;
+    border-bottom-color: #4f46e5;
+    background: none;
+}
+
+/* =============================================
+   Nav link hover animation
+   ============================================= */
+.nav-link {
+    position: relative;
+    transition: color 0.2s;
+}
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 0; height: 2px;
+    background: #4f46e5;
+    border-radius: 2px;
+    transition: width 0.25s, left 0.25s;
+}
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 100%; left: 0;
+}
+
+/* =============================================
+   Pagination
+   ============================================= */
+.page-link {
+    transition: background 0.18s, color 0.18s;
+}
+
+/* =============================================
+   Smooth Scroll
+   ============================================= */
+html { scroll-behavior: smooth; }
+
+/* =============================================
+   Footer Styles
+   ============================================= */
+.footer-social-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    color: #94a3b8;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.footer-social-btn:hover {
+    background: #4f46e5;
+    color: #fff;
+    transform: translateY(-2px);
+}
+.footer-badge {
+    background: rgba(79,70,229,0.15);
+    color: #a5b4fc;
+    border: 1px solid rgba(79,70,229,0.3);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+.footer-heading {
+    color: #e2e8f0;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+.footer-links {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    list-style: none; padding: 0; margin: 0;
+}
+.footer-links li a {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.2s, padding-left 0.2s;
+    display: flex; align-items: center;
+}
+.footer-links li a:hover {
+    color: #a5b4fc;
+    padding-left: 4px;
+}
+.footer-links li a i { color: #4f46e5; opacity: 0.7; width: 18px; }
+.footer-contact {
+    display: flex; flex-direction: column; gap: 0.9rem;
+    list-style: none; padding: 0; margin: 0;
+}
+.footer-contact li {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    color: #64748b; font-size: 0.88rem; line-height: 1.5;
+}
+.footer-contact-icon {
+    width: 30px; height: 30px; flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(79,70,229,0.15);
+    color: #818cf8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+}
+

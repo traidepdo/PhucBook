@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('books/', views.book_list, name='book_list'),
     path('books/<int:pk>/', views.book_detail, name='book_detail'),
+    path('books/<int:pk>/review/', views.add_review, name='add_review'),
     
     # Admin URLs
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),

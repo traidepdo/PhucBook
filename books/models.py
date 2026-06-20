@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name="Tên danh mục")
@@ -30,3 +32,36 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    def average_rating(self):
+        reviews = self.reviews.all()
+        if reviews.exists():
+            return round(sum(r.rating for r in reviews) / reviews.count(), 1)
+        return 0
+
+    def review_count(self):
+        return self.reviews.count()
+
+
+class Review(models.Model):
+    RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
+
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews', verbose_name="Sách")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews', verbose_name="Người dùng")
+    rating = models.PositiveSmallIntegerField(
+        choices=RATING_CHOICES,
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name="Đánh giá (sao)"
+    )
+    comment = models.TextField(verbose_name="Nhận xét")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Ngày đánh giá")
+
+    class Meta:
+        verbose_name = "Đánh giá"
+        verbose_name_plural = "Đánh giá"
+        ordering = ['-created_at']
+        # Mỗi người chỉ được đánh giá 1 lần cho mỗi sách
+        unique_together = ('book', 'user')
+
+    def __str__(self):
+        return f"{self.user.username} đánh giá '{self.book.title}' – {self.rating} sao"

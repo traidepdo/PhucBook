@@ -1,3 +1,16 @@
+<!-- Top Announcement Bar -->
+<div class="top-bar text-white py-1 px-3 d-none d-md-block"
+    style="background: linear-gradient(90deg, #4f46e5, #0ea5e9); font-size: 0.82rem;">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-truck me-1"></i> Miễn phí vận chuyển đơn hàng trên 200.000đ</span>
+        <span>
+            <i class="bi bi-telephone-fill me-1"></i> Hotline: <strong>+84 123 456 789</strong>
+            <span class="mx-2">|</span>
+            <i class="bi bi-clock me-1"></i> 8:00 – 22:00 mỗi ngày
+        </span>
+    </div>
+</div>
+
 <nav class="navbar navbar-expand-lg sticky-top glass-navbar shadow-sm py-3">
     <div class="container">
         <!-- Logo -->
@@ -7,7 +20,9 @@
         </a>
 
         <!-- Mobile Toggler -->
-        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -16,34 +31,44 @@
             <!-- Categories Dropdown & Main Nav -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active text-primary fw-semibold{% endif %}" href="{% url 'books:index' %}">Trang chủ</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active text-primary fw-semibold{% endif %}"
+                        href="{% url 'books:index' %}">Trang chủ</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'book_list' and not request.GET.category %}active text-primary fw-semibold{% endif %}" href="{% url 'books:book_list' %}">Tất cả sách</a>
-                </li>
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                         Danh mục
                     </a>
                     <ul class="dropdown-menu border-0 shadow-sm mt-2">
                         {% for cat in all_categories %}
-                            <li>
-                                <a class="dropdown-menu-item dropdown-item py-2" href="{% url 'books:book_list' %}?category={{ cat.id }}">
-                                    {{ cat.name }}
-                                </a>
-                            </li>
+                        <li>
+                            <a class="dropdown-menu-item dropdown-item py-2"
+                                href="{% url 'books:book_list' %}?category={{ cat.id }}">
+                                <i class="bi bi-bookmark me-2 text-primary opacity-75"></i>{{ cat.name }}
+                            </a>
+                        </li>
                         {% empty %}
-                            <li><span class="dropdown-item text-muted">Chưa có danh mục</span></li>
+                        <li><span class="dropdown-item text-muted">Chưa có danh mục</span></li>
                         {% endfor %}
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about-section">Giới thiệu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact-section">Liên hệ</a>
                 </li>
             </ul>
 
             <!-- Search Form -->
-            <form class="d-flex mx-lg-4 my-2 my-lg-0 position-relative w-100 style-search-form" style="max-width: 320px;" action="{% url 'books:book_list' %}" method="GET">
+            <form class="d-flex mx-lg-4 my-2 my-lg-0 position-relative w-100 style-search-form"
+                style="max-width: 320px;" action="{% url 'books:book_list' %}" method="GET">
                 <div class="input-group">
-                    <input class="form-control border-end-0 rounded-start-pill bg-light" type="search" name="q" placeholder="Tìm kiếm sách..." value="{{ query|default:'' }}" aria-label="Search" required>
-                    <button class="btn btn-light border border-start-0 rounded-end-pill text-muted bg-light" type="submit">
+                    <input class="form-control border-end-0 rounded-start-pill bg-light" type="search" name="q"
+                        placeholder="Tìm kiếm sách..." value="{{ query|default:'' }}" aria-label="Search" required>
+                    <button class="btn btn-light border border-start-0 rounded-end-pill text-muted bg-light"
+                        type="submit">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>
@@ -53,50 +78,60 @@
             <ul class="navbar-nav align-items-lg-center">
                 <!-- Cart Icon -->
                 <li class="nav-item me-lg-3 my-2 my-lg-0">
-                    <a class="btn btn-outline-primary position-relative rounded-pill px-3" href="{% url 'cart:cart_detail' %}">
+                    <a class="btn btn-outline-primary position-relative rounded-pill px-3"
+                        href="{% url 'cart:cart_detail' %}">
                         <i class="bi bi-cart3"></i>
                         <span class="ms-1 d-lg-inline d-none">Giỏ hàng</span>
                         {% if cart_items_count > 0 %}
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-white">
-                                {{ cart_items_count }}
-                            </span>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-white">
+                            {{ cart_items_count }}
+                        </span>
                         {% endif %}
                     </a>
                 </li>
 
                 {% if user.is_authenticated %}
-                    <!-- Admin Panel Button -->
-                    {% if user.is_superuser %}
-                        <li class="nav-item me-lg-2 my-2 my-lg-0">
-                            <a class="btn btn-outline-dark rounded-pill px-3" href="{% url 'books:admin_dashboard' %}">
-                                <i class="bi bi-speedometer2 me-1"></i> Quản trị
-                            </a>
-                        </li>
-                    {% endif %}
+                <!-- Admin Panel Button -->
+                {% if user.is_superuser %}
+                <li class="nav-item me-lg-2 my-2 my-lg-0">
+                    <a class="btn btn-outline-dark rounded-pill px-3" href="{% url 'books:admin_dashboard' %}">
+                        <i class="bi bi-speedometer2 me-1"></i> Quản trị
+                    </a>
+                </li>
+                {% endif %}
 
-                    <!-- User Dropdown Menu -->
-                    <li class="nav-item dropdown my-2 my-lg-0">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px;">
-                                <span class="small fw-bold">{{ user.username|slice:":1"|upper }}</span>
-                            </div>
-                            <span class="fw-medium text-dark">{{ user.username }}</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm mt-2">
-                            <li><a class="dropdown-item py-2" href="{% url 'accounts:profile' %}"><i class="bi bi-person me-2 text-muted"></i>Thông tin cá nhân</a></li>
-                            <li><a class="dropdown-item py-2" href="{% url 'orders:order_history' %}"><i class="bi bi-clock-history me-2 text-muted"></i>Lịch sử mua hàng</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item py-2 text-danger" href="{% url 'accounts:logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
-                        </ul>
-                    </li>
+                <!-- User Dropdown Menu -->
+                <li class="nav-item dropdown my-2 my-lg-0">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                            style="width: 32px; height: 32px;">
+                            <span class="small fw-bold">{{ user.username|slice:":1"|upper }}</span>
+                        </div>
+                        <span class="fw-medium text-dark">{{ user.username }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm mt-2">
+                        <li><a class="dropdown-item py-2" href="{% url 'accounts:profile' %}"><i
+                                    class="bi bi-person me-2 text-muted"></i>Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item py-2" href="{% url 'orders:order_history' %}"><i
+                                    class="bi bi-clock-history me-2 text-muted"></i>Lịch sử mua hàng</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item py-2 text-danger" href="{% url 'accounts:logout' %}"><i
+                                    class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                    </ul>
+                </li>
                 {% else %}
-                    <!-- Guest Buttons -->
-                    <li class="nav-item me-lg-2 my-2 my-lg-0">
-                        <a class="btn btn-link text-decoration-none text-dark px-3 fw-medium" href="{% url 'accounts:login' %}">Đăng nhập</a>
-                    </li>
-                    <li class="nav-item my-2 my-lg-0">
-                        <a class="btn btn-primary rounded-pill px-4" href="{% url 'accounts:register' %}">Đăng ký</a>
-                    </li>
+                <!-- Guest Buttons -->
+                <li class="nav-item me-lg-2 my-2 my-lg-0">
+                    <a class="btn btn-link text-decoration-none text-dark px-3 fw-medium"
+                        href="{% url 'accounts:login' %}">Đăng nhập</a>
+                </li>
+                <li class="nav-item my-2 my-lg-0">
+                    <a class="btn btn-primary rounded-pill px-4" href="{% url 'accounts:register' %}">Đăng ký</a>
+                </li>
                 {% endif %}
             </ul>
         </div>

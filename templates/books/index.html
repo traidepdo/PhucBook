@@ -1,29 +1,81 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Trang chủ - Bookstore tri thức trực tuyến{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<div class="row align-items-center mb-5 bg-white p-4 p-md-5 rounded-4 shadow-sm">
-    <div class="col-lg-6 mb-4 mb-lg-0">
-        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fw-semibold">Cửa hàng sách trực tuyến #1</span>
-        <h1 class="display-4 fw-extrabold mb-3 text-dark">Khám Phá Thế Giới Qua Từng Trang Sách</h1>
-        <p class="lead text-muted mb-4">Chào mừng đến với BookStore - nơi hội tụ hàng ngàn đầu sách hay thuộc mọi thể loại. Đọc để mở mang tri thức và phát triển bản thân mỗi ngày.</p>
-        <div class="d-flex flex-wrap gap-2">
-            <a href="{% url 'books:book_list' %}" class="btn btn-primary btn-lg rounded-pill px-4 py-2.5">Mua Sách Ngay</a>
-            <a href="#featured-section" class="btn btn-outline-secondary btn-lg rounded-pill px-4 py-2.5">Tìm Hiểu Thêm</a>
+<div class="hero-section rounded-4 overflow-hidden mb-5 position-relative shadow-lg">
+    <div class="hero-bg-image" style="background-image: url('{% static 'hero_bookstore.png' %}');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content row align-items-center py-5 px-4 px-md-5">
+        <div class="col-lg-6 mb-4 mb-lg-0 text-white hero-text">
+            <span class="badge rounded-pill px-3 py-2 mb-3 fw-semibold" style="background: rgba(255,255,255,0.25); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3);">
+                <i class="bi bi-star-fill text-warning me-1"></i> Cửa hàng sách trực tuyến #1 Việt Nam
+            </span>
+            <h1 class="display-4 fw-extrabold mb-3" style="text-shadow: 0 2px 12px rgba(0,0,0,0.3);">
+                Khám Phá Thế Giới<br>Qua Từng Trang Sách
+            </h1>
+            <p class="lead mb-4" style="opacity: 0.92; text-shadow: 0 1px 4px rgba(0,0,0,0.2);">
+                Hội tụ hàng ngàn đầu sách hay thuộc mọi thể loại. Đọc để mở mang tri thức và phát triển bản thân mỗi ngày.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+                <a href="{% url 'books:book_list' %}" class="btn btn-light btn-lg rounded-pill px-4 fw-semibold text-primary shadow-sm">
+                    <i class="bi bi-bag-heart me-2"></i>Mua Sách Ngay
+                </a>
+                <a href="#featured-section" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-semibold">
+                    <i class="bi bi-arrow-down me-2"></i>Tìm Hiểu Thêm
+                </a>
+            </div>
+            <!-- Stats -->
+            <div class="d-flex gap-4 mt-4 pt-2">
+                <div class="text-center">
+                    <div class="fs-4 fw-bold">10K+</div>
+                    <div class="small opacity-75">Đầu sách</div>
+                </div>
+                <div class="text-center">
+                    <div class="fs-4 fw-bold">50K+</div>
+                    <div class="small opacity-75">Khách hàng</div>
+                </div>
+                <div class="text-center">
+                    <div class="fs-4 fw-bold">4.9 ★</div>
+                    <div class="small opacity-75">Đánh giá</div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-lg-6 text-center">
-        <!-- SVG Book Store Illustration -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="auto">
-            <rect x="50" y="50" width="400" height="250" rx="20" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
-            <path d="M 120,270 L 150,150 L 170,150 L 200,270 Z" fill="#4f46e5" opacity="0.8"/>
-            <path d="M 210,270 L 230,130 L 250,130 L 270,270 Z" fill="#0ea5e9" opacity="0.9"/>
-            <path d="M 280,270 L 290,110 L 320,110 L 330,270 Z" fill="#f43f5e" opacity="0.8"/>
-            <rect x="340" y="90" width="30" height="180" rx="3" fill="#10b981" opacity="0.75"/>
-            <line x1="80" y1="270" x2="420" y2="270" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
-        </svg>
+</div>
+
+<!-- Trust Badges -->
+<div class="row g-3 mb-5">
+    {% for icon, title, desc in trust_badges %}{% endfor %}
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center h-100 trust-card">
+            <i class="bi bi-truck fs-2 text-primary mb-2"></i>
+            <div class="fw-semibold small text-dark">Miễn phí vận chuyển</div>
+            <div class="text-muted" style="font-size: 0.78rem;">Đơn trên 200.000đ</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center h-100 trust-card">
+            <i class="bi bi-shield-check fs-2 text-success mb-2"></i>
+            <div class="fw-semibold small text-dark">Hàng chính hãng</div>
+            <div class="text-muted" style="font-size: 0.78rem;">100% sách thật</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center h-100 trust-card">
+            <i class="bi bi-arrow-repeat fs-2 text-warning mb-2"></i>
+            <div class="fw-semibold small text-dark">Đổi trả dễ dàng</div>
+            <div class="text-muted" style="font-size: 0.78rem;">Trong vòng 7 ngày</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center h-100 trust-card">
+            <i class="bi bi-headset fs-2 text-info mb-2"></i>
+            <div class="fw-semibold small text-dark">Hỗ trợ 24/7</div>
+            <div class="text-muted" style="font-size: 0.78rem;">Luôn sẵn sàng giúp</div>
+        </div>
     </div>
 </div>
 
@@ -34,15 +86,15 @@
         <span>Danh Mục Sách Nổi Bật</span>
     </h3>
     <div class="row row-cols-2 row-cols-md-4 g-3">
-        {% for cat in all_categories|slice:":4" %}
+        {% for cat in all_categories|slice:":8" %}
             <div class="col">
                 <a href="{% url 'books:book_list' %}?category={{ cat.id }}" class="text-decoration-none">
-                    <div class="card h-100 bg-white border border-light-subtle text-center p-4">
-                        <div class="rounded-circle bg-primary-subtle text-primary mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <div class="card h-100 bg-white border border-light-subtle text-center p-4 category-card">
+                        <div class="rounded-circle bg-primary-subtle text-primary mx-auto mb-3 d-flex align-items-center justify-content-center category-icon" style="width: 60px; height: 60px;">
                             <i class="bi bi-bookmark-star fs-3"></i>
                         </div>
                         <h5 class="card-title text-dark fw-bold mb-1 small">{{ cat.name }}</h5>
-                        <p class="card-text text-muted small">Xem sản phẩm</p>
+                        <p class="card-text text-muted small mb-0">{{ cat.books.count }} cuốn</p>
                     </div>
                 </a>
             </div>
@@ -67,23 +119,48 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         {% for book in featured_books %}
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 book-card">
                     <!-- Book Image -->
-                    <div class="position-relative overflow-hidden bg-light text-center py-4 rounded-top-3" style="height: 220px;">
+                    <div class="position-relative overflow-hidden book-cover-wrapper rounded-top-3" style="height: 220px;">
                         {% if book.image %}
-                            <img src="{{ book.image.url }}" class="img-fluid mh-100" style="object-fit: contain;" alt="{{ book.title }}">
+                            <img src="{{ book.image.url }}" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="{{ book.title }}">
                         {% else %}
-                            <i class="bi bi-book text-muted" style="font-size: 5rem;"></i>
+                            <div class="w-100 h-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #f0f4ff, #e0e7ff);">
+                                <i class="bi bi-book text-primary" style="font-size: 4rem; opacity: 0.5;"></i>
+                            </div>
                         {% endif %}
-                        <span class="position-absolute top-2 start-2 badge bg-primary">Mới</span>
+                        <div class="book-cover-overlay">
+                            <a href="{% url 'books:book_detail' book.id %}" class="btn btn-light btn-sm rounded-pill px-3 shadow">
+                                <i class="bi bi-eye me-1"></i>Xem chi tiết
+                            </a>
+                        </div>
+                        <span class="position-absolute top-0 start-0 m-2 badge bg-primary">Mới</span>
                     </div>
                     
                     <!-- Card Body -->
-                    <div class="card-body d-flex flex-column">
+                    <div class="card-body d-flex flex-column p-3">
                         <span class="text-muted small mb-1">{{ book.category.name }}</span>
-                        <h6 class="card-title fw-bold text-dark text-truncate-2 mb-2" style="min-height: 40px;" title="{{ book.title }}">{{ book.title }}</h6>
-                        <p class="card-text text-secondary small mb-3">Tác giả: {{ book.author }}</p>
-                        
+                        <h6 class="card-title fw-bold text-dark text-truncate-2 mb-1" style="min-height: 40px;" title="{{ book.title }}">{{ book.title }}</h6>
+                        <p class="card-text text-secondary small mb-2">{{ book.author }}</p>
+                        <!-- Rating display -->
+                        <div class="d-flex align-items-center mb-2">
+                            {% with avg=book.average_rating %}
+                                {% if avg > 0 %}
+                                    <div class="star-display me-1">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= avg %}
+                                                <i class="bi bi-star-fill text-warning" style="font-size:0.75rem;"></i>
+                                            {% else %}
+                                                <i class="bi bi-star text-warning" style="font-size:0.75rem;"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <span class="text-muted" style="font-size:0.75rem;">({{ book.review_count }})</span>
+                                {% else %}
+                                    <span class="text-muted" style="font-size:0.75rem;">Chưa có đánh giá</span>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
                         <div class="mt-auto d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-primary fs-5">{{ book.price|floatformat:0 }}đ</span>
                             <a href="{% url 'books:book_detail' book.id %}" class="btn btn-outline-primary btn-sm rounded-pill px-3">Chi tiết</a>
@@ -99,4 +176,99 @@
         {% endfor %}
     </div>
 </div>
+
+<!-- About Section -->
+<div id="about-section" class="mb-5">
+    <div class="row align-items-center g-4 bg-white rounded-4 shadow-sm p-4 p-md-5">
+        <div class="col-md-6">
+            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill mb-3 fw-semibold">Về chúng tôi</span>
+            <h2 class="fw-bold mb-3 text-dark">Hơn 10 Năm Đồng Hành Cùng Bạn Đọc</h2>
+            <p class="text-muted lh-lg mb-3">
+                BookStore ra đời với sứ mệnh đưa tri thức đến gần hơn với mọi người. Chúng tôi cung cấp hàng chục nghìn đầu sách từ các nhà xuất bản uy tín, với giá cả hợp lý và dịch vụ giao hàng nhanh chóng.
+            </p>
+            <p class="text-muted lh-lg mb-4">
+                Mỗi cuốn sách là một hành trình khám phá. Hãy để BookStore là người bạn đồng hành trên con đường chinh phục tri thức của bạn.
+            </p>
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; flex-shrink: 0;">
+                            <i class="bi bi-check-lg fs-5"></i>
+                        </div>
+                        <span class="small fw-medium">Sách chính hãng 100%</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; flex-shrink: 0;">
+                            <i class="bi bi-lightning fs-5"></i>
+                        </div>
+                        <span class="small fw-medium">Giao hàng nhanh 2h</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-warning-subtle text-warning d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; flex-shrink: 0;">
+                            <i class="bi bi-star fs-5"></i>
+                        </div>
+                        <span class="small fw-medium">Đánh giá 4.9/5 sao</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-info-subtle text-info d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; flex-shrink: 0;">
+                            <i class="bi bi-people fs-5"></i>
+                        </div>
+                        <span class="small fw-medium">50.000+ khách hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="about-visual rounded-3 overflow-hidden" style="height: 320px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                <div class="text-white text-center p-4">
+                    <i class="bi bi-book-half" style="font-size: 6rem; opacity: 0.8;"></i>
+                    <h3 class="mt-3 fw-bold">BookStore</h3>
+                    <p class="opacity-75">Nơi tri thức gặp gỡ đam mê</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div id="contact-section" class="mb-5">
+    <div class="row g-4 bg-white rounded-4 shadow-sm p-4 p-md-5">
+        <div class="col-12 text-center mb-2">
+            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill mb-3 fw-semibold">Liên hệ</span>
+            <h2 class="fw-bold text-dark">Chúng Tôi Luôn Sẵn Sàng Hỗ Trợ</h2>
+            <p class="text-muted">Liên hệ với chúng tôi qua các kênh dưới đây</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="rounded-circle bg-primary-subtle text-primary mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;">
+                <i class="bi bi-telephone-fill fs-3"></i>
+            </div>
+            <h5 class="fw-bold">Hotline</h5>
+            <p class="text-muted mb-0">+84 123 456 789</p>
+            <p class="text-muted small">8:00 – 22:00 mỗi ngày</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="rounded-circle bg-success-subtle text-success mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;">
+                <i class="bi bi-envelope-fill fs-3"></i>
+            </div>
+            <h5 class="fw-bold">Email</h5>
+            <p class="text-muted mb-0">support@bookstore.vn</p>
+            <p class="text-muted small">Phản hồi trong 24h</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="rounded-circle bg-warning-subtle text-warning mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 72px; height: 72px;">
+                <i class="bi bi-geo-alt-fill fs-3"></i>
+            </div>
+            <h5 class="fw-bold">Địa chỉ</h5>
+            <p class="text-muted mb-0">123 Đường Sách, Q.1</p>
+            <p class="text-muted small">TP. Hồ Chí Minh</p>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

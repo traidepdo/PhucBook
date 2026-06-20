@@ -4,9 +4,9 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.db.models import Sum
 from django.contrib.auth.models import User
-from .models import Book, Category
+from .models import Book, Category, Review
 from .forms import BookForm, CategoryForm
-from orders.models import Order
+from orders.models import Order, OrderItem
 
 # Helper to check if user is admin
 def is_admin(user):
@@ -51,10 +51,73 @@ def book_list(request):
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
     related_books = Book.objects.filter(category=book.category).exclude(pk=pk)[:4]
+    reviews = book.reviews.select_related('user').all()
+
+    # Kiểm tra người dùng đã mua sách này và đơn hàng đã hoàn thành chưa
+    can_review = False
+    user_review = None
+    if request.user.is_authenticated:
+        has_purchased = OrderItem.objects.filter(
+            order__user=request.user,
+            order__status='completed',
+            book=book
+        ).exists()
+        can_review = has_purchased
+        # Kiểm tra xem đã review chưa
+        try:
+            user_review = Review.objects.get(book=book, user=request.user)
+        except Review.DoesNotExist:
+            user_review = None
+
     return render(request, 'books/book_detail.html', {
         'book': book,
         'related_books': related_books,
+        'reviews': reviews,
+        'can_review': can_review,
+        'user_review': user_review,
     })
+
+# Add review (only for users who purchased the book)
+@login_required(login_url='accounts:login')
+def add_review(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    
+    # Kiểm tra đã mua và đơn hàng đã hoàn thành
+    has_purchased = OrderItem.objects.filter(
+        order__user=request.user,
+        order__status='completed',
+        book=book
+    ).exists()
+    
+    if not has_purchased:
+        messages.error(request, "Bạn chỉ có thể đánh giá sách sau khi đã mua và nhận hàng thành công.")
+        return redirect('books:book_detail', pk=pk)
+    
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment', '').strip()
+        
+        if not rating or not comment:
+            messages.error(request, "Vui lòng điền đầy đủ số sao và nhận xét.")
+            return redirect('books:book_detail', pk=pk)
+        
+        try:
+            rating = int(rating)
+            if not 1 <= rating <= 5:
+                raise ValueError
+        except (ValueError, TypeError):
+            messages.error(request, "Số sao không hợp lệ.")
+            return redirect('books:book_detail', pk=pk)
+        
+        Review.objects.update_or_create(
+            book=book,
+            user=request.user,
+            defaults={'rating': rating, 'comment': comment}
+        )
+        messages.success(request, "Cảm ơn bạn đã đánh giá sách này!")
+    
+    return redirect('books:book_detail', pk=pk)
+
 
 # Admin Dashboard
 @user_passes_test(is_admin, login_url='accounts:login')
